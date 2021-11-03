@@ -5,7 +5,7 @@ export interface Results {
     summary: string,
     mainContent: string,
     author: string,
-    timestamp: string,
+    timestamp: number,
     site: string,
     country: string,
     lang: string,

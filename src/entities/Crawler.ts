@@ -59,7 +59,7 @@ class Crawler {
                 summary: "",
                 mainContent: "",
                 author: "",
-                timestamp: "",
+                timestamp: 0,
                 site: "",
                 country: "",
                 lang: "",
@@ -131,6 +131,38 @@ class Crawler {
                     mainNodes.remove(".ads");
                     mainNodes.remove(".advert");
                     r.mainContent = mainNodes.text();
+                }
+            }
+            // --- AUTHOR ---
+            {
+                r.author = loadedHTML("meta[itemprop=author][content]").attr("content") ?? "";
+                if (r.author === "") {
+                    r.author = loadedHTML("meta[name=author][content]").attr("content") ?? "";
+                }
+                if (r.author === "") {
+                    r.author = loadedHTML("meta[name=cse_author][content]").attr("content") ?? "";
+                }
+            }
+            // --- TIMESTAMP ---
+            {
+                let ts = loadedHTML("meta[itemprop=datePublished][content]").attr("content") ?? "";
+                if (ts === "") {
+                    ts = loadedHTML("meta[name=date][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML("meta[name=cse_date][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML("meta[name=pubdate][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML("meta[name=article:published_time][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML("meta[property$=updated_time][content]").attr("content") ?? "";
+                }
+                if (ts !== "") {
+                    r.timestamp = new Date(ts).getTime() / 1000;
                 }
             }
             return r;
