@@ -81,6 +81,17 @@ class Crawler {
             {
                 r.title = loadedHTML("title").text();
             }
+            // --- SUMMARY ---
+            {
+                r.summary = loadedHTML("meta[itemprop=description][content]").attr("content") ?? "";
+                if (r.summary === "") {
+                    r.summary = loadedHTML("meta[name=description][content]").attr("content") ?? "";
+                }
+                if (r.summary === "") {
+                    r.summary = loadedHTML("meta[name=cse_summary][content]").attr("content") ?? "";
+                }
+            }
+            // --- MAIN CONTENT ---
 
             return r;
         } catch (err) { throw err }

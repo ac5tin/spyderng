@@ -15,7 +15,12 @@ describe("Scrape full page HTML", function() {
         // --- CHECK DATA ---
 
         // title
+        console.log(`Title: ${results.title}`);
         expect(results.title).not.eq("");
         expect(results.title).eq("Google");
+
+        // summary
+        console.log(`summary: ${results.summary}`);
+        expect(results.summary).not.eq("");
     });
 });
