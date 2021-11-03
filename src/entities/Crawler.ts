@@ -90,9 +90,49 @@ class Crawler {
                 if (r.summary === "") {
                     r.summary = loadedHTML("meta[name=cse_summary][content]").attr("content") ?? "";
                 }
+                if (r.summary === "") {
+                    r.summary = loadedHTML("body").text().substring(0, 200);
+                }
             }
             // --- MAIN CONTENT ---
-
+            {
+                let mainNodes = loadedHTML("main");
+                if (mainNodes.length === 0) {
+                    mainNodes = loadedHTML("[id^=content]");
+                }
+                if (mainNodes.length === 0) {
+                    mainNodes = loadedHTML("[id^=main]");
+                }
+                if (mainNodes.length === 0) {
+                    mainNodes = loadedHTML("[id^=article]");
+                }
+                // final fallback
+                if (mainNodes.length === 0) {
+                    mainNodes = loadedHTML("body");
+                    mainNodes.remove("header");
+                    mainNodes.remove("footer ~ *");
+                    mainNodes.remove("footer");
+                }
+                if (mainNodes.length > 0) {
+                    // styling
+                    mainNodes.remove("style");
+                    // navigation
+                    mainNodes.remove("nav");
+                    mainNodes.remove("[role=navigation]");
+                    // script
+                    mainNodes.remove("script");
+                    mainNodes.remove("noscript");
+                    // ads
+                    mainNodes.remove("ins");
+                    mainNodes.remove("[class*=adsbygoogle]");
+                    mainNodes.remove("[class*=ad-]");
+                    mainNodes.remove("[data-ad-client]");
+                    mainNodes.remove(".ad");
+                    mainNodes.remove(".ads");
+                    mainNodes.remove(".advert");
+                    r.mainContent = mainNodes.text();
+                }
+            }
             return r;
         } catch (err) { throw err }
     }
