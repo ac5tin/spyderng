@@ -1,5 +1,7 @@
 import Puppeteer from "puppeteer-extra";
 import { Browser, PuppeteerNode } from "puppeteer-core";
+import { Results } from "@interfaces/results";
+import cheerio from "cheerio";
 
 class Crawler {
     #browser?: Browser;
@@ -41,9 +43,46 @@ class Crawler {
         try {
             const page = await this.#browser?.newPage();
             await page?.goto(url, { waitUntil: "networkidle0" });
-            const html = await page?.evaluate(() => document.body.innerHTML);
+            const html = await page?.evaluate(() => document.documentElement.outerHTML);
             await page?.close();
             return html ?? "";
+        } catch (err) { throw err }
+    }
+
+
+    full = async (url: string): Promise<Results> => {
+        try {
+            const r: Results = {
+                rawHTML: "",
+                url: "",
+                title: "",
+                summary: "",
+                mainContent: "",
+                author: "",
+                timestamp: "",
+                site: "",
+                country: "",
+                lang: "",
+                type: "",
+                relatedInternalLinks: [],
+                relatedExternalLinks: [],
+                tokens: [],
+            };
+
+            // - LOAD PAGE -
+            const html = await this.raw(url);
+            const loadedHTML = cheerio.load(html);
+
+            // --- URL ---
+            r.url = url;
+            // --- RAW HTML ---
+            r.rawHTML = html;
+            // --- TITLE ---
+            {
+                r.title = loadedHTML("title").text();
+            }
+
+            return r;
         } catch (err) { throw err }
     }
 }
