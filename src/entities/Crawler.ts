@@ -37,7 +37,7 @@ class Crawler {
      * @param url Page url
      * @return raw page html as string
     */
-    scrape = async (url: string): Promise<string> => {
+    raw = async (url: string): Promise<string> => {
         try {
             const page = await this.#browser?.newPage();
             await page?.goto(url, { waitUntil: "networkidle0" });

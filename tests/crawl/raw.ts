@@ -8,7 +8,7 @@ describe("Scrape Raw page HTML", function() {
     it("Google UK", async () => {
         const c = new Crawler();
         await c.init();
-        const html = await c.scrape("https://www.google.co.uk");
+        const html = await c.raw("https://www.google.co.uk");
         await c.close(); // close crawler
         expect(html.length).greaterThanOrEqual(100);
     });
