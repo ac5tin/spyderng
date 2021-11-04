@@ -4,7 +4,7 @@ import Crawler from "../../src/entities/Crawler";
 import { Results } from "../../src/@interfaces/results";
 
 
-describe("Scrape full page HTML", function () {
+describe("Scrape full page HTML", function() {
     this.timeout(3000);
     it("Google UK", async () => {
         const c = new Crawler();
@@ -22,7 +22,7 @@ describe("Scrape full page HTML", function () {
 });
 
 
-describe("Extract full results from page", function () {
+describe("Extract full results from page", function() {
     this.timeout(30000);
 
     const urls: string[] = [
@@ -45,8 +45,6 @@ describe("Extract full results from page", function () {
         it(`Extract ${url}`, async () => {
             const c = new Crawler();
             await c.init();
-
-
             const results: Results = await c.full(url);
             await c.close(); // close crawler
 
@@ -61,7 +59,7 @@ describe("Extract full results from page", function () {
             expect(results.summary).not.eq("");
 
             // main content
-            console.log(`main content: ${results.mainContent}`);
+            console.log(`main content: ${results.mainContent.slice(0, 200)}`);
             expect(results.mainContent).not.eq("");
 
             // author
