@@ -79,6 +79,13 @@ describe("Extract full results from page", function () {
             console.log(`related internal links: ${results.relatedInternalLinks.length}`);
             console.log(`related external links: ${results.relatedExternalLinks.length}`);
 
+            if (results.relatedExternalLinks.length > 0) {
+                console.log(`related external link: ${results.relatedExternalLinks[0]}`);
+            }
+            if (results.relatedInternalLinks.length > 0) {
+                console.log(`related internal link: ${results.relatedInternalLinks[0]}`);
+            }
+
         });
     }
 
