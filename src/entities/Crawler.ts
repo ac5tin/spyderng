@@ -202,20 +202,33 @@ class Crawler {
                     const link = links.eq(i);
                     const href = link.attr("href");
                     if (href !== undefined) {
+                        if (href.length < 2) {
+                            continue;
+                        }
+                        if (!href.startsWith("/") && !href.startsWith("http")) {
+                            continue;
+                        }
                         try {
-                            if (href.startsWith("/")) {
-                                r.relatedInternalLinks.push(href);
-                            }
+
                             const url = new URL(href);
                             if (url.hostname === r.site) {
                                 // internal links
+                                if (r.relatedInternalLinks.includes(url.href)) {
+                                    continue;
+                                }
                                 r.relatedInternalLinks.push(url.href);
                             } else {
                                 // external links
+                                if (r.relatedExternalLinks.includes(url.href)) {
+                                    continue;
+                                }
                                 r.relatedExternalLinks.push(url.href);
                             }
 
                         } catch (_) {
+                            if (r.relatedInternalLinks.includes(href)) {
+                                continue;
+                            }
                             r.relatedInternalLinks.push(href);
                         }
                     }
