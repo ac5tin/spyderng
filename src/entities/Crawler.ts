@@ -165,6 +165,63 @@ class Crawler {
                     r.timestamp = new Date(ts).getTime() / 1000;
                 }
             }
+            // --- SITE ---
+            {
+                r.site = new URL(url).hostname;
+            }
+            // --- COUNTRY ---
+            {
+                r.country = loadedHTML("meta[itemprop=country][content]").attr("content") ?? "";
+                if (r.country === "") {
+                    r.country = loadedHTML("meta[name=geo.country][content]").attr("content") ?? "";
+                }
+                if (r.country === "") {
+                    r.country = loadedHTML("meta[name=cse_country][content]").attr("content") ?? "";
+                }
+                if (r.country === "") {
+                    r.country = loadedHTML("meta[name=geo.placename][content]").attr("content") ?? "";
+                }
+            }
+            // --- LANGUAGE ---
+            {
+                r.lang = loadedHTML("meta[itemprop=inLanguage][content]").attr("content") ?? "";
+                if (r.lang === "") {
+                    r.lang = loadedHTML("meta[name=language][content]").attr("content") ?? "";
+                }
+                if (r.lang === "") {
+                    r.lang = loadedHTML("html").attr("lang") ?? "";
+                }
+            }
+            // --- TYPE ---
+            {
+            }
+            // --- LINKS ---
+            {
+                const links = loadedHTML("a[href]");
+                for (let i = 0; i < links.length; ++i) {
+                    const link = links.eq(i);
+                    const href = link.attr("href");
+                    if (href !== undefined) {
+                        try {
+                            if (href.startsWith("/")) {
+                                r.relatedInternalLinks.push(href);
+                            }
+                            const url = new URL(href);
+                            if (url.hostname === r.site) {
+                                // internal links
+                                r.relatedInternalLinks.push(url.href);
+                            } else {
+                                // external links
+                                r.relatedExternalLinks.push(url.href);
+                            }
+
+                        } catch (_) {
+                            r.relatedInternalLinks.push(href);
+                        }
+                    }
+                }
+            }
+
             return r;
         } catch (err) { throw err }
     }
