@@ -4,7 +4,7 @@ import Crawler from "../../src/entities/Crawler";
 import { Results } from "../../src/@interfaces/results";
 
 
-describe("Scrape full page HTML", function() {
+describe("Scrape full page HTML", function () {
     this.timeout(3000);
     it("Google UK", async () => {
         const c = new Crawler();
@@ -22,7 +22,7 @@ describe("Scrape full page HTML", function() {
 });
 
 
-describe("Extract full results from page", function() {
+describe("Extract full results from page", function () {
     this.timeout(30000);
 
     const urls: string[] = [
@@ -64,11 +64,20 @@ describe("Extract full results from page", function() {
 
             // author
             console.log(`author: ${results.author}`);
-            expect(results.author).not.eq("");
 
             // timestamp
             console.log(`timestamp: ${new Date(results.timestamp)}`);
-            expect(results.timestamp).not.eq(0);
+
+            // site
+            console.log(`site: ${results.site}`);
+            expect(results.site).not.eq("");
+
+            // country
+            console.log(`country: ${results.country}`);
+
+            // links
+            console.log(`related internal links: ${results.relatedInternalLinks.length}`);
+            console.log(`related external links: ${results.relatedExternalLinks.length}`);
 
         });
     }
