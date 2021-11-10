@@ -248,6 +248,12 @@ class Crawler {
                     }
                 }
             }
+            // tokens
+            {
+                if (r.tokens.length === 0) {
+                    r.tokens = loadedHTML("meta[name=keywords][content]").attr("content")?.split(/[,、]/g).map(tk => tk.trim()) ?? [];
+                }
+            }
 
             return r;
         } catch (err) { throw err }
