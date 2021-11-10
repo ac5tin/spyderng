@@ -79,7 +79,7 @@ class Crawler {
             r.rawHTML = html;
             // --- TITLE ---
             {
-                r.title = loadedHTML("title").text();
+                r.title = loadedHTML("title").text().replace(/\n/g, "").trim();
             }
             // --- SUMMARY ---
             {
@@ -92,6 +92,11 @@ class Crawler {
                 }
                 if (r.summary === "") {
                     r.summary = loadedHTML("body").text().substring(0, 200);
+                }
+
+                // clean
+                if (r.summary !== "") {
+                    r.summary = r.summary.replace(/\n/g, "").trim();
                 }
             }
             // --- MAIN CONTENT ---
@@ -163,6 +168,9 @@ class Crawler {
                 }
                 if (ts === "") {
                     ts = loadedHTML("meta[property$=updated_time][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML(`[content^='${new Date().getUTCFullYear()}-']`).attr("content") ?? "";
                 }
                 if (ts === "") {
                     ts = loadedHTML("[datetime]").attr("datetime") ?? "";
