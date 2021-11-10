@@ -175,6 +175,9 @@ class Crawler {
                 if (ts === "") {
                     ts = loadedHTML("[datetime]").attr("datetime") ?? "";
                 }
+                if (ts === "") {
+                    ts = loadedHTML("[id$=DateTime]").text() ?? "";
+                }
                 if (ts !== "") {
                     r.timestamp = new Date(ts).getTime() / 1000;
                 }
@@ -251,7 +254,7 @@ class Crawler {
             // tokens
             {
                 if (r.tokens.length === 0) {
-                    r.tokens = loadedHTML("meta[name=keywords][content]").attr("content")?.split(/[,、]/g).map(tk => tk.trim()) ?? [];
+                    r.tokens = loadedHTML("meta[name=keywords][content]").attr("content")?.split(/[,、]/g).map(tk => tk.trim().toLocaleLowerCase()) ?? [];
                 }
             }
 
