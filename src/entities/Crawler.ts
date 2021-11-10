@@ -142,6 +142,9 @@ class Crawler {
                 if (r.author === "") {
                     r.author = loadedHTML("meta[name=cse_author][content]").attr("content") ?? "";
                 }
+                if (r.author === "") {
+                    r.author = loadedHTML("[class$=author]").text() ?? "";
+                }
             }
             // --- TIMESTAMP ---
             {
@@ -160,6 +163,9 @@ class Crawler {
                 }
                 if (ts === "") {
                     ts = loadedHTML("meta[property$=updated_time][content]").attr("content") ?? "";
+                }
+                if (ts === "") {
+                    ts = loadedHTML("[datetime]").attr("datetime") ?? "";
                 }
                 if (ts !== "") {
                     r.timestamp = new Date(ts).getTime() / 1000;
