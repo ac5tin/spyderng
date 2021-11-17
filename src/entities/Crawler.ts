@@ -40,13 +40,13 @@ class Crawler {
      * @return raw page html as string
     */
     raw = async (url: string): Promise<string> => {
+        const page = await this.#browser?.newPage().catch(err => { throw err });
         try {
-            const page = await this.#browser?.newPage();
             await page?.goto(url, { waitUntil: "networkidle0" });
             const html = await page?.evaluate(() => document.documentElement.outerHTML);
             await page?.close();
             return html ?? "";
-        } catch (err) { throw err }
+        } catch (err) { page?.close(); throw err }
     }
 
 
