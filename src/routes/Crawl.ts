@@ -4,7 +4,10 @@ import { StatusCodes } from 'http-status-codes';
 
 const fullCrawlSite = async (req: Request, res: Response) => {
     try {
-        const { url }: { url: string } = req.body;
+        let { url }: { url: string } = req.body;
+        if (!url.startsWith('http')) {
+            url = `https://${url}`;
+        }
         const resp = await C.full(url);
         res.status(StatusCodes.OK).json({
             status: 'success',
