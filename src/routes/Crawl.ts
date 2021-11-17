@@ -12,6 +12,7 @@ const fullCrawlSite = async (req: Request, res: Response) => {
         });
         return;
     } catch (err) {
+        console.error((err as Error).message);//debug
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             error: (err as Error).message,
