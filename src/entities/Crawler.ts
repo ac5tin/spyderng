@@ -79,7 +79,7 @@ class Crawler {
             r.rawHTML = html;
             // --- TITLE ---
             {
-                r.title = loadedHTML("title").text().replace(/\n/g, "").trim();
+                r.title = loadedHTML("head title").text().replace(/\n/g, "").trim();
             }
             // --- SUMMARY ---
             {
