@@ -2,6 +2,8 @@ import Puppeteer from "puppeteer-extra";
 import { Browser, PuppeteerNode } from "puppeteer-core";
 import { Results } from "@interfaces/results";
 import cheerio from "cheerio";
+import Adblocker from "puppeteer-extra-plugin-adblocker";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
 class Crawler {
     #browser?: Browser;
@@ -9,6 +11,8 @@ class Crawler {
 
     init = async (): Promise<void> => {
         try {
+            Puppeteer.use(Adblocker({ blockTrackers: true }));
+            Puppeteer.use(StealthPlugin());
             this.#browser = await (Puppeteer as unknown as PuppeteerNode).launch({
                 args: [
                     "--no-sandbox",
