@@ -265,9 +265,6 @@ class Crawler {
                 // clean get params
                 for (let i = 0; i < r.relatedInternalLinks.length; ++i) {
                     const link = r.relatedInternalLinks[i];
-                    if (link.includes("?") && !link.includes("?id=")) {
-                        r.relatedInternalLinks[i] = link.split("?")[0];
-                    }
                     if (link.includes("#")) {
                         r.relatedInternalLinks[i] = link.split("#")[0];
                     }
@@ -280,9 +277,6 @@ class Crawler {
                 }
                 for (let i = 0; i < r.relatedExternalLinks.length; ++i) {
                     const link = r.relatedExternalLinks[i];
-                    if (link.includes("?") && !link.includes("?id=")) {
-                        r.relatedExternalLinks[i] = link.split("?")[0];
-                    }
                     if (link.includes("#")) {
                         r.relatedExternalLinks[i] = link.split("#")[0];
                     }
