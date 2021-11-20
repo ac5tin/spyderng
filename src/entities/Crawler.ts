@@ -23,7 +23,8 @@ class Crawler {
                     "--window-size=1920x1080",
                     "--lang=en-US,en;q=0.9",
                     "--disable-web-security",
-                    "--disable-features=IsolateOrigins,site-per-process"
+                    "--disable-features=IsolateOrigins,site-per-process",
+                    `--proxy-server=${process.env.PROXY_SERVER}`
                 ],
                 executablePath: process.env.CHROMIUM_PATH,
                 headless: true,
