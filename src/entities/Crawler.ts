@@ -267,9 +267,6 @@ class Crawler {
                     if (link.includes("#")) {
                         r.relatedInternalLinks[i] = link.split("#")[0];
                     }
-                    if (link.endsWith("/")) {
-                        r.relatedInternalLinks[i] = link.slice(0, -1);
-                    }
                     if (link.includes("&")) {
                         r.relatedInternalLinks[i] = link.split("&")[0];
                     }
@@ -278,9 +275,6 @@ class Crawler {
                     const link = r.relatedExternalLinks[i];
                     if (link.includes("#")) {
                         r.relatedExternalLinks[i] = link.split("#")[0];
-                    }
-                    if (link.endsWith("/")) {
-                        r.relatedExternalLinks[i] = link.slice(0, -1);
                     }
                     if (link.includes("&")) {
                         r.relatedExternalLinks[i] = link.split("&")[0];
