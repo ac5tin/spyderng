@@ -43,13 +43,14 @@ class Crawler {
      * @param url Page url
      * @return raw page html as string
     */
-    raw = async (url: string): Promise<string> => {
+    raw = async (url: string): Promise<[string, string]> => {
         const page = await this.#browser?.newPage().catch(err => { throw err });
         try {
             await page?.goto(url, { waitUntil: "networkidle0" });
             const html = await page?.evaluate(() => document.documentElement.outerHTML);
+            const realUrl = await page?.url();
             await page?.close();
-            return html ?? "";
+            return [realUrl ?? url, html ?? ""];
         } catch (err) { page?.close(); throw err }
     }
 
@@ -74,11 +75,11 @@ class Crawler {
             };
 
             // - LOAD PAGE -
-            const html = await this.raw(url);
+            const [actualUrl, html] = await this.raw(url);
             const loadedHTML = cheerio.load(html);
 
             // --- URL ---
-            r.url = url;
+            r.url = actualUrl;
             // --- RAW HTML ---
             r.rawHTML = html;
             // --- TITLE ---
