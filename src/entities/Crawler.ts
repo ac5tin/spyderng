@@ -285,7 +285,7 @@ class Crawler {
                 for (let i = 0; i < r.relatedInternalLinks.length; ++i) {
                     const link = r.relatedInternalLinks[i];
                     if (link.startsWith("/")) {
-                        r.relatedInternalLinks[i] = new URL(url).origin + link;
+                        r.relatedInternalLinks[i] = new URL(actualUrl).origin + link;
                     }
                 }
                 // clean get params
