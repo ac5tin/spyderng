@@ -189,7 +189,7 @@ class Crawler {
             }
             // --- SITE ---
             {
-                r.site = new URL(url).hostname;
+                r.site = new URL(actualUrl).hostname;
             }
             // --- COUNTRY ---
             {
