@@ -80,6 +80,32 @@ class Crawler {
 
             // --- URL ---
             r.url = actualUrl;
+            if (r.url.includes("#")) {
+                r.url = r.url.split("#")[0];
+            }
+            if (r.url.includes("&")) {
+                r.url = r.url.split("&")[0];
+            }
+
+            {
+                // clean UTM tags
+                if (r.url.includes("?utm_medium=")) {
+                    r.url = r.url.split("?utm_medium=")[0];
+                }
+                if (r.url.includes("?utm_source=")) {
+                    r.url = r.url.split("?utm_source=")[0];
+                }
+                if (r.url.includes("?utm_campaign=")) {
+                    r.url = r.url.split("?utm_campaign=")[0];
+                }
+                if (r.url.includes("?utm_term=")) {
+                    r.url = r.url.split("?utm_term=")[0];
+                }
+                if (r.url.includes("?utm_content=")) {
+                    r.url = r.url.split("?utm_content=")[0];
+                }
+
+            }
             // --- RAW HTML ---
             r.rawHTML = html;
             // --- TITLE ---
@@ -264,22 +290,24 @@ class Crawler {
                 }
                 // clean get params
                 for (let i = 0; i < r.relatedInternalLinks.length; ++i) {
-                    const link = r.relatedInternalLinks[i];
+                    let link = r.relatedInternalLinks[i];
                     if (link.includes("#")) {
-                        r.relatedInternalLinks[i] = link.split("#")[0];
+                        link = link.split("#")[0];
                     }
                     if (link.includes("&")) {
-                        r.relatedInternalLinks[i] = link.split("&")[0];
+                        link = link.split("&")[0];
                     }
+                    r.relatedInternalLinks[i] = link;
                 }
                 for (let i = 0; i < r.relatedExternalLinks.length; ++i) {
-                    const link = r.relatedExternalLinks[i];
+                    let link = r.relatedExternalLinks[i];
                     if (link.includes("#")) {
-                        r.relatedExternalLinks[i] = link.split("#")[0];
+                        link = link.split("#")[0];
                     }
                     if (link.includes("&")) {
-                        r.relatedExternalLinks[i] = link.split("&")[0];
+                        link = link.split("&")[0];
                     }
+                    r.relatedExternalLinks[i] = link;
                 }
 
 
