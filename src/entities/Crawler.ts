@@ -214,6 +214,9 @@ class Crawler {
                 if (ts === "") {
                     ts = loadedHTML("[id$=DateTime]").text() ?? "";
                 }
+                if (ts === "") {
+                    ts = loadedHTML(".publishDate").text() ?? "";
+                }
                 if (ts !== "") {
                     r.timestamp = new Date(ts).getTime() / 1000;
                 }
