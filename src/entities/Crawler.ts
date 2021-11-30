@@ -79,12 +79,17 @@ class Crawler {
             const loadedHTML = cheerio.load(html);
 
             // --- URL ---
-            r.url = actualUrl;
-            if (r.url.includes("#")) {
-                r.url = r.url.split("#")[0];
-            }
-            if (r.url.includes("&")) {
-                r.url = r.url.split("&")[0];
+            r.url = url;
+            if (new URL(actualUrl).hostname !== new URL(url).hostname) {
+                // probably redirected or shortened url
+                r.url = actualUrl;
+                if (r.url.includes("#")) {
+                    r.url = r.url.split("#")[0];
+                }
+                if (r.url.includes("&")) {
+                    r.url = r.url.split("&")[0];
+                }
+
             }
 
             {
