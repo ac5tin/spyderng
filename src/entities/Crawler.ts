@@ -133,6 +133,7 @@ class Crawler {
                 // clean
                 if (r.summary !== "") {
                     r.summary = r.summary.replace(/\n/g, "").trim();
+                    r.summary = r.summary.replace(/<[^>]*>/g, '');
                 }
             }
             // --- MAIN CONTENT ---
